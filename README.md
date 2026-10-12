@@ -34,22 +34,25 @@ This was the first time the school needed students to sign up for electives. Unt
 There is no backend server. The web app talks to Firestore directly, and Security Rules decide on the server who may read or write what.
 
 ```mermaid
-flowchart LR
-    users["Students, teachers, admins<br/>(browser or phone)"]
-    hosting["Firebase Hosting<br/>Flutter web build"]
-    auth["Firebase Auth<br/>Google Sign-In"]
-    db[("Cloud Firestore")]
-    rules["Security Rules<br/>(server-side checks)"]
-    repo["GitHub repository"]
-    ci["GitHub Actions<br/>analyze · test · build"]
+flowchart TB
+    users["Students, teachers, admins<br/>browser or phone"]
+
+    subgraph firebase["Firebase"]
+        direction LR
+        hosting["Hosting<br/>Flutter web app"]
+        auth["Authentication<br/>Google Sign-In"]
+        rules["Security Rules<br/>server-side checks"] --> db[("Cloud Firestore")]
+    end
+
+    subgraph cicd["CI/CD"]
+        direction LR
+        repo["GitHub repository"] -->|push to main| ci["GitHub Actions<br/>analyze · test · build"]
+    end
 
     users -->|loads app| hosting
     users -->|signs in| auth
     users -->|reads and writes| rules
-    rules --> db
-    repo -->|push to main| ci
-    ci -->|deploys app| hosting
-    ci -->|deploys rules and indexes| rules
+    ci -->|deploys app, rules and indexes| firebase
 ```
 
 Firestore has no joins, so each registration is written to both the class roster and the student's own record, in one transaction:
@@ -58,16 +61,16 @@ Firestore has no joins, so each registration is written to both the class roster
 erDiagram
     USER ||--o{ REGISTRATION : "has"
     USER ||--o{ COURSE_HISTORY : "has taken"
-    CLASS ||--o{ ROSTER_ENTRY : "enrolls"
-    CLASS ||--o{ WAITLIST_ENTRY : "queues"
-    TERM_SETTINGS ||--o{ CLASS : "governs"
+    COURSE ||--o{ ROSTER_ENTRY : "enrolls"
+    COURSE ||--o{ WAITLIST_ENTRY : "queues"
+    TERM_SETTINGS ||--o{ COURSE : "governs"
 
     USER {
         string email PK
-        string role "student | teacher | admin"
+        string role "student, teacher or admin"
         string grade
     }
-    CLASS {
+    COURSE {
         string classId PK
         string name
         string grade
@@ -88,7 +91,7 @@ erDiagram
     }
     REGISTRATION {
         string classId PK
-        string status "registered | waitlisted"
+        string status "registered or waitlisted"
     }
     COURSE_HISTORY {
         string courseKey PK
