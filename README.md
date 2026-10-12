@@ -1,10 +1,8 @@
 # Course Registration System
 
-A web app that runs elective course registration (수강신청) for a high school. I designed and built it on my own as a personal project, and the school uses it with my permission.
+A web app that runs elective course registration (수강신청) for a high school. I designed and built it myself, and the school uses it with my permission. The source code is private.
 
 **Solo project · Flutter + Firebase · in use since July 2026 · about 150 students and 20 teachers**
-
-> This repository is a written case study. The source code lives in a private repository, and any screenshots use synthetic data.
 
 ## The problem
 
@@ -128,7 +126,3 @@ erDiagram
 - **Correctness has to live below the UI.** A disabled button or seat counter helps users, but the transaction and the rules must stay correct even when the screen is stale.
 - **Serverless removes servers, not backend work.** Authorization, concurrency and failure behavior still had to be designed.
 - **Real-time updates can take a whole app down.** In my 2023 version, every change made every user's page rebuild and write again, so everyone saw a page that kept refreshing. Listeners are now read-only.
-
----
-
-Source code is in a private repository. Happy to walk through it in an interview.
