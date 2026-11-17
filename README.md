@@ -16,6 +16,30 @@ This was the first time the school needed students to sign up for electives. Unt
 - **Timetables and rosters:** personal and staff timetables, and teachers manage their own class lists.
 - **School paperwork:** bulk import from CSV/Excel, and attendance sheets generated in the school's own Excel form.
 
+## Screenshots
+
+These screenshots use fictional 2027-2 demo data created for this README. Names, courses, rosters and schedules are examples only; no real student records are shown.
+
+### Student course registration
+
+![Student course registration](screenshots/student-registration.png)
+
+### Student timetable
+
+![Student timetable](screenshots/student-timetable.png)
+
+### Package registration and waitlist
+
+![Package registration and waitlist](screenshots/student-packages.png)
+
+### Teacher classroom timetable
+
+![Teacher classroom timetable](screenshots/teacher-classroom-timetable.png)
+
+### Administrator course management
+
+![Administrator course management](screenshots/admin-course-management.png)
+
 ## Tech stack
 
 | Area | Technology |
